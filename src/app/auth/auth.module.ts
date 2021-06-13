@@ -9,6 +9,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialAngularModule } from '../material-angular/material-angular.module';
+import { ServicesModule } from '../services/services.module';
 
 
 @NgModule({
