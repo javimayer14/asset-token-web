@@ -10,18 +10,19 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router, private serializer: UrlSerializer) { }
 
   public login(username: string, password: string) : Observable<any> {
-    const tree = this.router.createUrlTree(['oauth', 'token'])
-    const url = `http://localhost:8080${this.serializer.serialize(tree)}`;
+    const tree = this.router.createUrlTree(['api', 'oauth', 'token'])
+    const url = this.serializer.serialize(tree);
     const headers = new HttpHeaders({
       'Authorization': 'Basic YW5ndWxhckFwcDoxMjM0NQ==',
-      'Content-Type': 'Authorization' }
+      'Content-Type': 'application/x-www-form-urlencoded' }
     );  
 
-    let request = this.http.post<any>(url, { 
-      'username': username,
-      'password': password,
-      'grant_type': 'password'
-    }, { headers: headers });
+    let body = new URLSearchParams();
+    body.append('username', username);
+    body.append('password', password);
+    body.append('grant_type', 'password');
+
+    let request = this.http.post<any>(url, body.toString(), { headers: headers });
 
     return request;
   }
