@@ -1,3 +1,10 @@
-<h1>header</h1>
-<router-outlet></router-outlet>
-<h1>footer</h1>
+<app-header [sidenav]="appSideNav"></app-header>
+<mat-sidenav-container>
+  <mat-sidenav #appSideNav opened mode="side" class="mat-elevation-z8">
+    <app-sidenav></app-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<app-footer></app-footer>
