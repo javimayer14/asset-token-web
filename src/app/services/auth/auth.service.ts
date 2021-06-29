@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router, UrlSerializer } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';// This is where I import map operator
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,15 @@ export class AuthService {
     body.append('password', password);
     body.append('grant_type', 'password');
 
-    let request = this.http.post<any>(url, body.toString(), { headers: headers });
+    let request = this.http.post<any>(url, body.toString(), { headers: headers })
+      .pipe(map(token => {
+        sessionStorage.setItem('_token', token.access_token);
+        return token;
+      }),
+        catchError((error: HttpErrorResponse) => { 
+          return throwError("An error ocurred. Please try again");
+        })
+      );
 
     return request;
   }

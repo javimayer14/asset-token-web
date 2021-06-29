@@ -22,10 +22,18 @@ export class LoginComponent implements OnInit {
   }
 
   public login(){
-    this.authService.login(this.loginForm.get('username')?.value, this.loginForm.get('password')?.value).subscribe((response) => {
-      console.log(response);
-    },
-    (err) => console.log(err));
+    this.authService.login(this.getUserNameFormValue(), this.getPasswordFormValue()).subscribe(
+      (response) => console.log(response),
+      (err) => console.log(err)
+    );
   }
+
+  private getUserNameFormValue() : string {
+    return this.loginForm.get('username')?.value;
+  }
+
+  private getPasswordFormValue() : string {
+    return this.loginForm.get('password')?.value;
+  }  
 
 }
