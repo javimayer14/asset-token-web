@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav'; 
 import { MatDividerModule } from '@angular/material/divider'; 
 import { MatCheckboxModule } from '@angular/material/checkbox'; 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const MAT_MODULES = [
   MatFormFieldModule,
@@ -18,7 +19,8 @@ const MAT_MODULES = [
   MatIconModule,
   MatSidenavModule,
   MatDividerModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatSnackBarModule
 ]
 
 @NgModule({

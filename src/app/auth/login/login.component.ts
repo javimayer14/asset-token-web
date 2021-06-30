@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,9 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
+  public wrongUserPassword: boolean;
 
-  constructor(private authService: AuthService) { 
+  constructor(private authService: AuthService, private router: Router) { 
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -21,10 +23,19 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get userNameControl() {
+    return this.loginForm.get('username');
+  }
+
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
+
   public login(){
+    this.wrongUserPassword = false;
     this.authService.login(this.getUserNameFormValue(), this.getPasswordFormValue()).subscribe(
-      (response) => console.log(response),
-      (err) => console.log(err)
+      (response) => this.redirecToDashboard(),
+      (err) => this.showInlineFormError()
     );
   }
 
@@ -34,6 +45,14 @@ export class LoginComponent implements OnInit {
 
   private getPasswordFormValue() : string {
     return this.loginForm.get('password')?.value;
-  }  
+  }
+
+  private redirecToDashboard(){
+    this.router.navigate(['/dash']);
+  }
+
+  private showInlineFormError(){
+    this.wrongUserPassword = true;
+  }
 
 }
